@@ -1,3 +1,6 @@
+// home: MainPage(state) changed to home: child (so MainPage doesn't get rebuilt)
+// edit: it still does get rebuilt because CoreState is mutable (unlike with ValueNotifiers)
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'model/core_state.dart';
@@ -25,6 +28,7 @@ class MyApp extends StatelessWidget {
     final state = CoreState();
     return ListenableBuilder(
         listenable: state,
+        child: MainPage(state),
         builder: (BuildContext context, Widget? child) => MaterialApp(
               debugShowCheckedModeBanner: false,
               title: title,
@@ -32,7 +36,7 @@ class MyApp extends StatelessWidget {
                 scaffoldBackgroundColor: state.backgroundColor,
                 primaryColor: Colors.white,
               ),
-              home: MainPage(state),
+              home: child,
             ));
   }
 }
