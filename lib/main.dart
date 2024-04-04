@@ -1,5 +1,7 @@
-// home: MainPage(state) changed to home: child (so MainPage doesn't get rebuilt)
-// edit: it still does get rebuilt because CoreState is mutable (unlike with ValueNotifiers)
+// home: MainPage(state) changed to home: child
+// (so MainPage doesn't get rebuilt) when changing color
+// edit: it still does get rebuilt because CoreState is changed,
+// and 'listenable: state' is same for both color and counter
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
