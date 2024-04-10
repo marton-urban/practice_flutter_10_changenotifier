@@ -12,7 +12,24 @@ class CounterPage extends StatefulWidget {
 }
 
 class _CounterPageState extends State<CounterPage> {
-  final controller = TextEditingController();
+  late final MyTextField myTextField;
+
+  @override
+  void initState() {
+    super.initState();
+    myTextField = MyTextField(setStringCounter);
+  }
+
+  void increment() {
+    widget.state.incrementCounter();
+    Navigator.pop(context);
+  }
+
+  void setStringCounter() {
+    final counter = int.tryParse(myTextField.value);
+    widget.state.setCounter(counter!);
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +43,12 @@ class _CounterPageState extends State<CounterPage> {
           children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 48),
-              child: buildTextField(onSubmitted: setStringCounter),
+              child: myTextField,
             ),
             const SizedBox(height: 24),
             ButtonWidget(
               text: 'Update Counter',
-              onClicked: () => setStringCounter(controller.text),
+              onClicked: setStringCounter,
             ),
             const SizedBox(height: 64),
             ButtonWidget(
@@ -43,40 +60,40 @@ class _CounterPageState extends State<CounterPage> {
       ),
     );
   }
+}
 
-  Widget buildTextField({
-    required ValueChanged<String> onSubmitted,
-  }) =>
-      TextField(
-        controller: controller,
-        style: const TextStyle(color: Colors.white),
-        cursorColor: Colors.white,
-        keyboardType: TextInputType.number,
-        onSubmitted: onSubmitted,
-        decoration: InputDecoration(
-          hintText: 'Counter',
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: Colors.white),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: Colors.white),
-          ),
-          hintStyle: const TextStyle(color: Colors.white70),
+class MyTextField extends StatelessWidget {
+  MyTextField(
+    this.setStringCounter, {
+    super.key,
+  });
+
+  final void Function() setStringCounter;
+
+  final controller = TextEditingController();
+
+  String get value => controller.text;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      onEditingComplete: setStringCounter,
+      style: const TextStyle(color: Colors.white),
+      cursorColor: Colors.white,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        hintText: 'Counter',
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: Colors.white),
         ),
-      );
-
-  void increment() {
-    widget.state.incrementCounter();
-
-    Navigator.pop(context);
-  }
-
-  void setStringCounter(String value) {
-    final counter = int.tryParse(value);
-    widget.state.setCounter(counter!);
-
-    Navigator.pop(context);
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: Colors.white),
+        ),
+        hintStyle: const TextStyle(color: Colors.white70),
+      ),
+    );
   }
 }

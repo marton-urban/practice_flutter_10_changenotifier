@@ -22,26 +22,36 @@ class ColorPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  buildColorButton(context, Colors.red),
-                  buildColorButton(context, Colors.orange),
-                  buildColorButton(context, Colors.greenAccent),
-                  buildColorButton(context, Colors.indigo),
+                  MyColorButton(state, Colors.red),
+                  MyColorButton(state, Colors.orange),
+                  MyColorButton(state, Colors.greenAccent),
+                  MyColorButton(state, Colors.indigo),
                 ],
               ),
             ),
           ),
         ),
       );
+}
 
-  Widget buildColorButton(BuildContext context, Color color) => Container(
-        margin: const EdgeInsets.symmetric(vertical: 8),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(backgroundColor: color, elevation: 0),
-          onPressed: () {
-            state.setColor(color);
-            Navigator.pop(context);
-          },
-          child: Container(height: 100),
-        ),
-      );
+class MyColorButton extends StatelessWidget {
+  final Color color;
+  final CoreState state;
+
+  const MyColorButton(this.state, this.color, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(backgroundColor: color, elevation: 0),
+        onPressed: () {
+          state.setColor(color);
+          Navigator.pop(context);
+        },
+        child: Container(height: 100),
+      ),
+    );
+  }
 }
