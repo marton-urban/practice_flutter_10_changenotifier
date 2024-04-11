@@ -18,13 +18,17 @@ class CoreState with ChangeNotifier {
   }
 
   void setColor(Color backgroundColor) {
-    _backgroundColor = backgroundColor;
-    notifyListeners();
+    if (_backgroundColor != backgroundColor) {
+      _backgroundColor = backgroundColor;
+      notifyListeners();
+    }
   }
 
   void setCounter(int counter) {
-    _counter = counter;
-    notifyListeners();
+    if (_counter != counter) {
+      _counter = counter;
+      notifyListeners();
+    }
   }
 
   // this is not needed in this case
